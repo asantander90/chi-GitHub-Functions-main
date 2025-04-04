@@ -40,7 +40,7 @@ jobs:
       - name: Descargar artefacto
         uses: actions/download-artifact@v3
         with:
-          name: ${{ inputs.artifact_name }}
+          name: ear-artifact  # Este es el nombre que usamos en actions/upload-artifact en la funcion de buildAnt.yml
 
       - name: Verificar contenido descargado
         run: ls -l
