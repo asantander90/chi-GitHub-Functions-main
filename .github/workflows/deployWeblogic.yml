@@ -33,10 +33,10 @@ on:
         description: "Nombre lógico de la aplicación"
         required: true
         type: string
-    secrets:
-      WEBLOGIC_PASSWORD:
-        description: "Password del usuario WebLogic"
-        required: true
+    #secrets:
+      #WEBLOGIC_PASSWORD:
+        #description: "Password del usuario WebLogic"
+        #required: true
 
 jobs:
   deploy:
