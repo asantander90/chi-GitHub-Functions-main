@@ -44,13 +44,14 @@ jobs:
         id: build
         run: |
           ant -f HelloWorldAPP/build.xml
-          EAR_NAME=$(basename $(find build -name "*.ear" | head -n1))
+          ls -lrt
+          EAR_NAME=$(basename $(find HelloWorldAPP/build -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
 
       - name: Guardar archivo para job siguiente
         run: |
           mkdir -p ../artefacto
-          cp build/ear/*.ear ../artefacto/
+          cp HelloWorldAPP/build/ear/*.ear ../artefacto/
 
   upload:
     runs-on: ubuntu-latest
