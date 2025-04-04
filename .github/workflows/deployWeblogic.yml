@@ -38,36 +38,12 @@ jobs:
 
     steps:
       - name: Descargar artefacto
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: ear-artifact  # Este es el nombre que usamos en actions/upload-artifact en la funcion de buildAnt.yml
+          name: ear-artifact
+          path: downloaded-ear
 
-      - name: Verificar contenido descargado
-        run: ls -l
-
-      - name: Instalar dependencias necesarias
+      - name: Verificar artefacto
         run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip unzip
-          pip3 install --upgrade wlsdeploy
-
-      - name: Desplegar aplicación a WebLogic
-        env:
-          WLS_USER: ${{ inputs.weblogic_user }}
-          WLS_PASS: ${{ secrets.WEBLOGIC_PASSWORD }}
-          WLS_HOST: ${{ inputs.server_host }}
-          WLS_PORT: ${{ inputs.server_port }}
-          WLS_TARGET: ${{ inputs.target_name }}
-          WLS_APP: ${{ inputs.app_name }}
-        run: |
-          EAR_FILE=$(ls *.ear | head -n 1)
-          echo "Desplegando $EAR_FILE a WebLogic..."
-
-          java weblogic.Deployer \
-            -adminurl t3://${WLS_HOST}:${WLS_PORT} \
-            -username $WLS_USER \
-            -password $WLS_PASS \
-            -deploy $EAR_FILE \
-            -targets $WLS_TARGET \
-            -name $WLS_APP \
-            -upload
+          ls -lh downloaded-ear/
+          echo "EAR listo para despliegue: $(ls downloaded-ear/*.ear)"
