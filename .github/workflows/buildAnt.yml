@@ -39,7 +39,7 @@ jobs:
       - name: Compilar con Ant
         id: build
         run: |
-          ant
+          ant -f HelloWorldApp/build.xml
           EAR_NAME=$(basename $(find dist -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
 
