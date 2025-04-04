@@ -3,6 +3,16 @@ name: Deploy to WebLogic
 on:
   workflow_call:
     inputs:
+      artifacts_pattern:
+        description: 'Directorio o expresión regular que describe qué se desea almacenar como artefacto'
+        required: true
+        default: 'build/ear/*ear'
+        type: string
+      artifacts_name:
+        description: 'Nombre del Ear'
+        required: true
+        default: 'HelloWorld'
+        type: string
       server_host:
         description: "URL o IP del servidor WebLogic"
         required: true
