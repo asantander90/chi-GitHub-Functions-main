@@ -16,45 +16,45 @@ on:
     outputs:
       ear_file_name:
         description: "Nombre del artefacto compilado"
-        value: ${{ jobs.build-on-docker.outputs.artifact_name }}
+        value: ${{ jobs.build.outputs.artifact_name }}
 
 jobs:
-  build-on-docker:
+  build:
     runs-on: ubuntu-latest
-
-    # Puedes usar directamente una imagen oficial con Ant + JDK o definir una tuya
     container:
       image: openjdk:${{ inputs.java_version }}
-      options: --user root  # Para evitar errores de permisos
+      options: --user root
 
     outputs:
-      artifact_name: ${{ steps.build-ear.outputs.earName }}
+      artifact_name: ${{ steps.build.outputs.earName }}
 
     steps:
-      - name: Checkout código fuente
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Listar archivos en el workspace
-        run: ls -lR
-
-      - name: Instalar Apache Ant
+      - name: Instalar Ant
         run: |
           apt-get update && apt-get install -y ant
-          ant -version
 
-      - name: Ejecutar build.xml con Ant
-        id: build-ear
+      - name: Compilar con Ant
+        id: build
         run: |
           ant
-          # Extraer el nombre del EAR generado
           EAR_NAME=$(basename $(find dist -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
-          echo "EAR generado: $EAR_NAME"
 
-      - name: Subir artefacto generado
+      - name: Guardar archivo para job siguiente
+        run: |
+          mkdir -p ../artefacto
+          cp dist/*.ear ../artefacto/
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Subir artefacto
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.build-ear.outputs.earName }}
-          path: |
-            ${{ inputs.artifacts_pattern }}
-
+          name: ${{ needs.build.outputs.artifact_name }}
+          path: ../artefacto/*.ear
