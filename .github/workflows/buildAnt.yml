@@ -32,6 +32,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Verificar los archivos descargados dentro del contenedor
+        run: |
+          ls -lrt
+
       - name: Instalar Ant
         run: |
           apt-get update && apt-get install -y ant
