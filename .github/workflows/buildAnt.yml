@@ -47,13 +47,20 @@ jobs:
         id: build
         run: |
           ant -f build.xml clean build
-          EAR_NAME=$(basename $(find build -name "*.ear" | head -n1))
+          EAR_NAME=$(basename $(find build/ear -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
+          echo "Ruta EAR: $(pwd)/build/ear/$EAR_NAME"  # Verificación
 
       - name: Guardar archivo para job siguiente
         run: |
-          mkdir -p ../artifact
-          cp build/ear/*.ear ../artifact/
+          mkdir -p artifact/
+          cp build/ear/*.ear artifact/
+      
+      - name: Verificar contenido antes de subir
+        run: |
+          echo "Contenido de artifact/:"
+          ls -lh artifact/
+          echo "Ruta completa: $(pwd)/artifact"
 
   upload:
     runs-on: ubuntu-latest
@@ -64,5 +71,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ear-artifact
-          path: ../artifact/*.ear
+          path: artifact/*.ear
           retention-days: 1
