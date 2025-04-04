@@ -43,10 +43,9 @@ jobs:
       - name: Compilar con Ant
         id: build
         run: |
-            cd HelloWorldAPP  # Cambiar al directorio donde se encuentra el build.xml
-            ant -f build.xml  # Ejecutar ant usando el build.xml específico
-            EAR_NAME=$(basename $(find dist -name "*.ear" | head -n1))
-            echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
+          ant -f HelloWorldAPP/build.xml
+          EAR_NAME=$(basename $(find dist -name "*.ear" | head -n1))
+          echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
 
       - name: Guardar archivo para job siguiente
         run: |
