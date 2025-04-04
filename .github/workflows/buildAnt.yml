@@ -11,7 +11,7 @@ on:
       artifacts_pattern:
         description: 'Directorio o expresión regular que describe qué se desea almacenar como artefacto'
         required: true
-        default: 'build/ear/*ear'
+        default: 'build/*ear'
         type: string
     outputs:
       ear_file_name:
@@ -43,16 +43,14 @@ jobs:
       - name: Compilar con Ant
         id: build
         run: |
-          ant -f HelloWorldAPP/build.xml
-          ls -lrt
-          ls -lrt HelloWorldAPP/build/ear
-          EAR_NAME=$(basename $(find HelloWorldAPP/build -name "*.ear" | head -n1))
+          ant -f build.xml
+          EAR_NAME=$(basename $(find build -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
 
       - name: Guardar archivo para job siguiente
         run: |
           mkdir -p ../artefacto
-          cp HelloWorldAPP/build/ear/*.ear ../artefacto/
+          cp build/*.ear ../artefacto/
 
   upload:
     runs-on: ubuntu-latest
