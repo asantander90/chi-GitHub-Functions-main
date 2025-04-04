@@ -45,6 +45,7 @@ jobs:
         run: |
           ant -f HelloWorldAPP/build.xml
           ls -lrt
+          ls -lrt HelloWorldAPP/build/ear
           EAR_NAME=$(basename $(find HelloWorldAPP/build -name "*.ear" | head -n1))
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
 
