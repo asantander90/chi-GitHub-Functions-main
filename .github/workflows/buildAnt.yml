@@ -52,7 +52,7 @@ jobs:
 
       - name: Guardar archivo para job siguiente
         run: |
-          mkdir -p ../artefacto
+          mkdir -p ../artifact
           cp build/ear/*.ear ../artifact/
 
   upload:
