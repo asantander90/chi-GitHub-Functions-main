@@ -60,8 +60,9 @@ jobs:
     needs: build
 
     steps:
-      - name: Subir artefacto
-        uses: actions/upload-artifact@v3
+      - name: Subir artefacto temporal
+        uses: actions/upload-artifact@v4
         with:
           name: ear-artifact
-          path: ../artefacto/*.ear
+          path: artifact/*.ear
+          retention-days: 1
