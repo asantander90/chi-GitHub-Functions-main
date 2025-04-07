@@ -40,11 +40,11 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Wait for SonarCloud Quality Gate result
-        uses: SonarSource/sonarcloud-quality-gate-action@v1
-        with:
-          scanMetadataReportFile: .scannerwork/report-task.txt
+      
+      - name: Wait for Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@v2.1.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          sonarHostUrl: https://sonarcloud.io  # Obligatorio para SonarCloud
         
