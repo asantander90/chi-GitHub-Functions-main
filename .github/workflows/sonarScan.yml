@@ -1,0 +1,38 @@
+name: SonarCloud Quality Gate
+
+on:
+  workflow_call:
+
+jobs:
+  sonar-quality-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para análisis completo, incluye histórico de Git
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'  # Ajusta si usas otra versión
+          distribution: 'temurin'
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.1.0
+        with:
+          projectBaseDir: ./
+          args: >
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
+            -Dsonar.host.url=https://sonarcloud.io
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Wait for Quality Gate Result
+        uses: SonarSource/sonarqube-quality-gate-action@v2.0.0
+        with:
+          sonar_host_url: https://sonarcloud.io
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
