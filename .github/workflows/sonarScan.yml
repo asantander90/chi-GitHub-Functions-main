@@ -41,9 +41,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Wait for Quality Gate Result
-        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+      - name: Wait for SonarCloud Quality Gate result
+        uses: SonarSource/sonarcloud-quality-gate-action@v1
         with:
-          sonar_host_url: https://sonarcloud.io
+          scanMetadataReportFile: .scannerwork/report-task.txt
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
