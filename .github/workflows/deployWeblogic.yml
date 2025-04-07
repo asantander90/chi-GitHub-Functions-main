@@ -51,5 +51,5 @@ jobs:
 
       - name: Verificar artefacto
         run: |
-          ls -lh downloaded-ear/
-          echo "EAR listo para despliegue: $(ls downloaded-ear/*.ear)"
+          echo "Buscando EAR en downloaded-ear/..."
+          find downloaded-ear/ -type f -name '*.ear' -exec ls -lh {} \;
