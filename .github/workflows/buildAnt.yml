@@ -51,9 +51,11 @@ jobs:
           echo "earName=$EAR_NAME" >> $GITHUB_OUTPUT
           echo "Ruta EAR: $(pwd)/build/ear/$EAR_NAME"  # Verificación
 
-      - name: Subir EAR como artefacto
+      - name: Subir EAR y clases como artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: ear-artifact
-          path: build/ear/*.ear  # Directamente desde donde se genera
+          name: ear-and-classes-artifact
+          path: |
+                build/ear/*.ear
+                HelloWorldEJB/build/*.class  # Incluye las clases compiladas
           retention-days: 1

@@ -46,7 +46,7 @@ jobs:
       - name: Descargar artefacto
         uses: actions/download-artifact@v4
         with:
-          name: ear-artifact
+          name: ear-and-classes-artifact
           path: downloaded-ear
 
       - name: Verificar artefacto
