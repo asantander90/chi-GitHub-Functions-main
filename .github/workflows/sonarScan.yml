@@ -45,6 +45,4 @@ jobs:
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          sonarHostUrl: https://sonarcloud.io  # Obligatorio para SonarCloud
         
