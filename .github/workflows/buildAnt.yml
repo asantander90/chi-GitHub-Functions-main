@@ -57,5 +57,5 @@ jobs:
           name: ear-and-classes-artifact
           path: |
                 build/ear/*.ear
-                HelloWorldEJB/build/*.class  # Incluye las clases compiladas
+                HelloWorldEJB/build/
           retention-days: 1
